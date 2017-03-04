@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Clase servicio para aplicando patron singlenton
+ * Las operaciones con el motor de persistencia...
  * @author vacax
  */
 public class EstudianteServices {
@@ -40,10 +41,54 @@ public class EstudianteServices {
         listaEstudiante.add(estudiante);
     }
     
+    /**
+     * Retorna la lista de los estudiantes registrados..
+     * En este caso no usamos base de datos...
+     * @return 
+     */
     public List<Estudiante> listar(){
         return listaEstudiante;
     }
     
-    //
+    /**
+     * 
+     * @param matricula
+     * @return 
+     */
+    public Estudiante getEstudiantePorMatricula(int matricula){
+       Estudiante estudiante=null;
+       for(Estudiante e : listaEstudiante){
+           if(e.getMatricula() == matricula){
+               estudiante = e;
+               break;
+           }
+       }
+       return estudiante;
+    }
+    
+    /**
+     * 
+     * @param estudianteModificado
+     * @return 
+     */
+    public Estudiante modificarEstudiante(Estudiante estudianteModificado){
+        Estudiante estudiante = getEstudiantePorMatricula(estudianteModificado.getMatricula());
+        if(estudiante==null){
+            return null; // o generamos una excepcion...
+        }
+        estudiante.setNombre(estudianteModificado.getNombre());
+        estudiante.setApellido(estudianteModificado.getApellido());
+        return estudiante;
+    }
+    
+    public boolean borrarEstudiante(int matricula){
+        
+        Estudiante estudiante = getEstudiantePorMatricula(matricula);
+        if(estudiante == null){
+            return false;
+        }
+        
+        return listaEstudiante.remove(estudiante);
+    }
     
 }
